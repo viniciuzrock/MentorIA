@@ -1,34 +1,29 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useTheme } from '../styles/theme';
+import { globalStyles } from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../types/index';
 
-type HomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
+const Home: React.FC = () => {
+  const navigation = useNavigation<any>(); // Defina o tipo do parâmetro explicitamente como 'any'
 
-const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const theme = useTheme();
 
+  const goToLogin = () => {
+    navigation.navigate('Login' as any); // Navega para a tela de login
+  };
+
+  const goToRegister = () => {
+    navigation.navigate('Register' as any); // Navega para a tela de registro
+  };
   return (
-    <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
+    <View style={[globalStyles.container, { backgroundColor: theme.background }]}>
+      <Text style={{ color: theme.text, fontSize: 24 }}>Welcome to the Mental Health Platform</Text>
+      <Text style={{ color: theme.text, marginTop: 10 }}>Your mental well-being is our priority.</Text>
+      <Button title="Login" onPress={goToLogin} />
+      <Button title="Register" onPress={goToRegister} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default HomeScreen;
+export default Home;
